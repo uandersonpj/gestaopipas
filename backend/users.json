@@ -1,0 +1,27 @@
+[
+  {
+    "username": "admin",
+    "password": "admin_password",
+    "role": "admin"
+  },
+  {
+    "username": "Nerias",
+    "password": "password123",
+    "role": "operator"
+  },
+  {
+    "username": "Ronivaldo",
+    "password": "password123",
+    "role": "operator"
+  },
+  {
+    "username": "Jorge",
+    "password": "password123",
+    "role": "operator"
+  },
+  {
+    "username": "Gustavo",
+    "password": "password123",
+    "role": "operator"
+  }
+]
