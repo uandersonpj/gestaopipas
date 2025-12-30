@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serra Verde - Gestão de Pipas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="main-header">
+            <h1>SERRA VERDE</h1>
+            <p id="user-info"></p>
+        </header>
+
+        <!-- View: Login -->
+        <div id="login-view" class="view active">
+            <h2>Login</h2>
+            <div class="login-options">
+                <button class="btn btn-primary" onclick="app.showOperatorLogin()">Sou Operador</button>
+                <button class="btn btn-secondary" onclick="app.showAdminLogin()">Sou Administrador</button>
+            </div>
+
+            <div id="operator-login-form" class="hidden login-subform">
+                <h3>Selecione o Operador</h3>
+                <select id="operator-select">
+                    <option value="" disabled selected>Selecione...</option>
+                    <option value="Nerias">Nerias</option>
+                    <option value="Ronivaldo">Ronivaldo</option>
+                    <option value="Gustavo">Gustavo</option>
+                </select>
+                <button class="btn btn-success" onclick="app.loginOperator()">Entrar</button>
+                <button class="btn btn-text" onclick="app.resetLogin()">Voltar</button>
+            </div>
+
+            <div id="admin-login-form" class="hidden login-subform">
+                <h3>Administrador</h3>
+                <input type="email" value="uandersonpj@gmail.com" disabled>
+                <input type="password" id="admin-password" placeholder="Senha">
+                <button class="btn btn-success" onclick="app.loginAdmin()">Entrar</button>
+                <button class="btn btn-text" onclick="app.resetLogin()">Voltar</button>
+            </div>
+        </div>
+
+        <!-- View: Operator Dashboard -->
+        <div id="operator-dashboard-view" class="view hidden">
+            <h2>Painel do Operador</h2>
+            <div class="status-card">
+                <h3>Status Atual</h3>
+                <p id="current-status">Parado</p>
+                <p id="status-timer">00:00:00</p>
+            </div>
+
+            <div class="action-buttons">
+                <button id="btn-start-activity" class="btn btn-large btn-primary" onclick="app.startActivity()">Iniciar Atividade</button>
+                <button id="btn-stop-activity" class="btn btn-large btn-danger hidden" onclick="app.stopActivity()">Parar Atividade</button>
+
+                <hr>
+
+                <button class="btn btn-large btn-success" onclick="app.goToForm()">Registrar Abastecimento</button>
+            </div>
+            <button class="btn btn-text" onclick="app.logout()">Sair</button>
+        </div>
+
+        <!-- View: Data Entry Form (Steps) -->
+        <div id="form-view" class="view hidden">
+            <!-- Step 1: Photos -->
+            <div id="form-step-1">
+                <header class="form-header">
+                    <h2>EVIDÊNCIAS FOTOGRÁFICAS</h2>
+                </header>
+
+                <div class="photo-section">
+                    <label>FOTOS ESTACA ZERO / LOCAL</label>
+                    <div class="photo-input-wrapper">
+                        <input type="file" id="photo-input-1" accept="image/*" capture="environment">
+                        <div class="photo-preview" id="preview-1">📸 Toque para tirar foto</div>
+                    </div>
+                </div>
+
+                <div class="photo-section">
+                    <label>FOTOS ÁGUA BRUTA / OUTRO</label>
+                    <div class="photo-input-wrapper">
+                        <input type="file" id="photo-input-2" accept="image/*" capture="environment">
+                        <div class="photo-preview" id="preview-2">📸 Toque para tirar foto</div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="app.cancelForm()">Cancel</button>
+                    <button class="btn btn-primary" onclick="app.nextStep()">Save & Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Data -->
+            <div id="form-step-2" class="hidden">
+                <header class="form-header">
+                    <h2>PREENCHIMENTO DE DADOS</h2>
+                </header>
+
+                <div class="form-group">
+                    <label>FUNCIONÁRIO</label>
+                    <input type="text" id="form-employee" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>DATA</label>
+                    <input type="text" id="form-date" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>VOL. CARREGADO (M³)</label>
+                    <input type="number" id="form-volume" placeholder="Ex: 20000">
+                </div>
+
+                <div class="form-group">
+                    <label>HORÁRIO</label>
+                    <input type="text" id="form-time" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>LOCAL ABASTECIDO (Origem)</label>
+                    <select id="form-source">
+                        <option value="">Selecione...</option>
+                        <option value="Tanque de Água Bruta">Tanque de Água Bruta</option>
+                        <option value="Cana Brava Estaca Zero">Cana Brava Estaca Zero</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>LOCAL UMECTADO (Destino)</label>
+                    <select id="form-destination">
+                        <option value="">Selecione...</option>
+                        <option value="Mina">Mina</option>
+                        <option value="Planta Industrial">Planta Industrial</option>
+                        <option value="Acesso">Acesso</option>
+                        <option value="GO 241">GO 241</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="app.prevStep()">Prev</button>
+                    <button class="btn btn-success" onclick="app.submitForm()">Finalizar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Admin Dashboard -->
+        <div id="admin-view" class="view hidden">
+            <header>
+                <h2>Painel Administrativo</h2>
+                <button class="btn btn-text" onclick="app.logout()">Sair</button>
+            </header>
+
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <h3>Volume Total</h3>
+                    <p id="stat-volume">0 m³</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Registros</h3>
+                    <p id="stat-count">0</p>
+                </div>
+            </div>
+
+            <div class="table-actions">
+                <button class="btn btn-primary" onclick="app.exportCSV()">Baixar Planilha (CSV)</button>
+                <button class="btn btn-danger" onclick="app.clearData()">Limpar Dados</button>
+            </div>
+
+            <div class="table-container">
+                <table id="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Data/Hora</th>
+                            <th>Operador</th>
+                            <th>Ação</th>
+                            <th>Origem</th>
+                            <th>Destino</th>
+                            <th>Vol (m³)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Logs here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
